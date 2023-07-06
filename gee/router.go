@@ -29,7 +29,6 @@ func newRouter() *router {
 	}
 }
 
-//初始的增加路由
 // func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 // 	log.Printf("Router %4s - %s", method, pattern)
 // 	key := method + "-" + pattern
@@ -61,8 +60,11 @@ func (r *router) handle(c *Context) {
 		key := c.Method + "-" + n.pattern
 		r.handlers[key](c)
 	} else {
-		c.String(http.StatusNotFound, "404 NOT FOUND:%s\n", c.Path)
+		c.handlers = append(c.handlers, func(c *Context) {
+			c.String(http.StatusNotFound, "404 NOT FOUND: %s\n", c.Path)
+		})
 	}
+	c.Next()
 }
 
 func parsePattern(pattern string) []string {
@@ -79,6 +81,7 @@ func parsePattern(pattern string) []string {
 	return parts
 }
 
+// 获得对应请求的路由
 func (r *router) getRoute(method string, path string) (*node, map[string]string) {
 	searchParts := parsePattern(path)
 	params := make(map[string]string)

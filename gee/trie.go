@@ -1,6 +1,8 @@
 package gee
 
-import "strings"
+import (
+	"strings"
+)
 
 type node struct {
 	pattern  string  //待匹配路由 例如/p/lang
