@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"fmt"
 	"log"
 	"time"
 )
@@ -10,6 +11,7 @@ func Logger() HandlerFunc {
 	return func(c *Context) {
 		t := time.Now()
 		//处理过程
+		fmt.Println("/////////////////////////////////////")
 		c.Next()
 		log.Printf("[%d] %s in %v", c.StatusCode, c.Req.RequestURI, time.Since(t))
 	}

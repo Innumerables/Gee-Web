@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -9,6 +10,10 @@ type node struct {
 	part     string  //路由中的一部分 :lang
 	children []*node //子节点
 	isWild   bool    //是否精确匹配
+}
+
+func (n *node) String() string {
+	return fmt.Sprintf("node{pattern=%s, part=%s, isWild=%t}", n.pattern, n.part, n.isWild)
 }
 
 func (n *node) matchChild(part string) *node {
